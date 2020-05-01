@@ -1,0 +1,9 @@
+<h1>Recipe Box</h1>
+<ul>
+    {% for item in data %}
+        <li>
+            <a href='recipe/{{ item.id }}/'> {{ item.title }} </a>
+        </li>
+       
+    {% endfor %}
+</ul>

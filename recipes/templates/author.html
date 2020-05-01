@@ -1,0 +1,20 @@
+<h1>Author</h1>
+
+    {% for author in data %}
+       <h3>{{ author.name }}</h3>
+       <h4>Bio</h4>
+       {{ author.bio }}
+    {% endfor %}
+
+<h4>Recipes Published</h4>
+<ul>
+    {% for recipe in recipes_published %}
+    {% for author in data %}
+        {% if recipe.author.name == author.name %}
+       <li>
+            <a href='recipe/{{ recipe.id }}/'> {{ recipe.title }} </a>
+        </li>
+        {% endif %}
+        {% endfor %}
+    {% endfor %}
+</ul>

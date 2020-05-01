@@ -1,0 +1,23 @@
+<h1>Recipe</h1>
+<ul>
+    {% for item in data %}
+        <li>
+            {{ item.title }}
+            <ul>
+                <li>
+                    {{ item.description }}
+                </li>
+                <li>
+                    Prep time: {{ item.time_required }}
+                </li>
+                <li>
+                    Instructions: {{ item.instructions }}
+                </li>
+                <li>
+                    Chef: <a href='/author/{{ item.author.id }}/'>{{ item.author }}</a>
+                </li>
+            </ul>
+        </li>
+       
+    {% endfor %}
+</ul>
