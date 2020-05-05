@@ -12,7 +12,7 @@
     {% for author in data %}
         {% if recipe.author.name == author.name %}
        <li>
-            <a href='recipe/{{ recipe.id }}/'> {{ recipe.title }} </a>
+            <a href='/recipe/{{ recipe.id }}/'> {{ recipe.title }} </a>
         </li>
         {% endif %}
         {% endfor %}
