@@ -4,7 +4,8 @@ from django.shortcuts import HttpResponseRedirect
 
 from recipes.models import Recipe
 from recipes.models import Author
-from recipes.forms import RecipeAddForm
+from recipes.forms import AddRecipeForm
+from recipes.forms import AddAuthorForm
 
 
 # Create your views here.
@@ -15,12 +16,11 @@ def index(request):
     return render(request, 'index.html', {'data': data})
 
 
-def recipeadd(request):
+def add_recipe(request):
     html = 'recipeaddform.html'
 
     if request.method == 'POST':
-        form = RecipeAddForm(request.POST)
-        
+        form = AddRecipeForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
             Recipe.objects.create(
@@ -30,10 +30,27 @@ def recipeadd(request):
                 instructions=data['instructions'],
                 author=data['author']
             )
-            
             return HttpResponseRedirect(reverse('homepage'))
 
-    form = RecipeAddForm()
+    form = AddRecipeForm()
+
+    return render(request, html, {'form': form})
+
+
+def add_author(request):
+    html = 'authoraddform.html'
+
+    if request.method == 'POST':
+        form = AddAuthorForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            Author.objects.create(
+                name=data['name'],
+                bio=data['bio']
+            )
+            return HttpResponseRedirect(reverse('homepage'))
+
+    form = AddAuthorForm()
 
     return render(request, html, {'form': form})
 
