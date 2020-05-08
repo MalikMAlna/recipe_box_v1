@@ -1,3 +1,9 @@
+{% if request.user.is_authenticated %}
+    <a href='logout/'>Logout</a>
+{% else %}
+    <a href='login/'>Login</a>
+    {% endif %}
+
 <h1>Recipe Box</h1>
 <ul>
     {% for item in data %}
