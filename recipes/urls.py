@@ -9,6 +9,7 @@ urlpatterns = [
     path('recipe/<int:recipe_id>/', views.recipe),
     path('author/<int:author_id>/', views.author),
     path('login/', views.loginview),
-    path('logout/', views.logoutview)
+    path('logout/', views.logoutview),
+    # path('editrecipe/', views.edit_recipe, name='edit_recipe')
     # path('admin/', admin.site.urls),
 ]

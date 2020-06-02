@@ -80,8 +80,10 @@ def add_author(request):
         if form.is_valid():
             data = form.cleaned_data
             Author.objects.create(
+                username=data['username'],
                 name=data['name'],
-                bio=data['bio']
+                bio=data['bio'],
+                password=data['password'],
             )
             return HttpResponseRedirect(reverse('homepage'))
 
@@ -99,3 +101,6 @@ def author(request, author_id):
     data = Author.objects.filter(id=author_id)
     recipes_published = Recipe.objects.all()
     return render(request, 'author.html', {'data': data, 'recipes_published': recipes_published})
+
+# def edit_recipe(request, recipe_id):
+#     pass
