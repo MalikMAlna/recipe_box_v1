@@ -13,6 +13,8 @@ from recipes.forms import AddRecipeForm
 from recipes.forms import AddAuthorForm
 from recipes.forms import LoginForm
 
+from django.contrib.auth.models import User
+
 
 # Create your views here.
 
@@ -30,7 +32,7 @@ def loginview(request):
                 login(request, user)
                 return HttpResponseRedirect(
                     request.GET.get('next', reverse('homepage'))
-                    )
+                )
 
     form = LoginForm()
 
@@ -79,11 +81,14 @@ def add_author(request):
         form = AddAuthorForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            Author.objects.create(
+            user = User.objects.create_user(
                 username=data['username'],
-                name=data['name'],
-                bio=data['bio'],
                 password=data['password'],
+            )
+            Author.objects.create(
+                user=user,
+                name=data["name"],
+                bio=data["bio"]
             )
             return HttpResponseRedirect(reverse('homepage'))
 
