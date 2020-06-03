@@ -20,6 +20,10 @@
                 </li>
             </ul>
         </li>
-       
+{% if user.is_authenticated %}
+{% if request.user == item.author.user or request.user.is_staff  %}
+<a href='/editrecipe/{{ item.id }}/'>Edit Recipe</a>
+{% endif %}
+{% endif %}
     {% endfor %}
 </ul>

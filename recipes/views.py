@@ -107,5 +107,27 @@ def author(request, author_id):
     recipes_published = Recipe.objects.all()
     return render(request, 'author.html', {'data': data, 'recipes_published': recipes_published})
 
-# def edit_recipe(request, recipe_id):
-#     pass
+
+@login_required
+def edit_recipe(request, recipe_id):
+    recipe = Recipe.objects.get(id=recipe_id)
+    if request.method == "POST":
+        form = AddRecipeForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            recipe.title = data['title']
+            recipe.description = data['description']
+            recipe.time_required = data['time_required']
+            recipe.instructions = data['instructions']
+            recipe.save()
+            return HttpResponseRedirect(
+                reverse('recipe-detail', args=(recipe_id,))
+            )
+    form = AddRecipeForm(initial={
+        'title': recipe.title,
+        'description': recipe.description,
+        'time_required': recipe.time_required,
+        'instructions': recipe.instructions,
+        'author': recipe.author
+    })
+    return render(request, "generic_form.html", {"form": form})
