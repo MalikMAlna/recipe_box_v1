@@ -108,7 +108,8 @@ def recipe(request, recipe_id):
 
 
 def author(request, author_id):
-    favorite_recipes = request.user.favorite.all()
+    author = Author.objects.get(id=author_id)
+    favorite_recipes = author.user.favorite.all()
     data = Author.objects.filter(id=author_id)
     recipes_published = Recipe.objects.all()
     return render(request, 'author.html', {'data': data, 'recipes_published': recipes_published,
