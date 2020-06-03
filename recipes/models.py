@@ -19,6 +19,8 @@ class Recipe(models.Model):
     time_required = models.CharField(max_length=40)
     instructions = models.TextField()
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    favorite = models.ManyToManyField(
+        User, related_name='favorite', blank=True)
 
     def __str__(self):
         return self.title

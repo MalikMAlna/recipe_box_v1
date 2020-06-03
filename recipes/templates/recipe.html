@@ -21,6 +21,12 @@
             </ul>
         </li>
 {% if user.is_authenticated %}
+{% if is_favorite %}
+<a href='/favoriterecipe/{{ item.id }}/'>Unfavorite</a>
+{% else %}
+<a href='/favoriterecipe/{{ item.id }}/'>Favorite</a>
+{% endif %}
+<br>
 {% if request.user == item.author.user or request.user.is_staff  %}
 <a href='/editrecipe/{{ item.id }}/'>Edit Recipe</a>
 {% endif %}

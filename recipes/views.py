@@ -99,13 +99,21 @@ def add_author(request):
 
 def recipe(request, recipe_id):
     data = Recipe.objects.filter(id=recipe_id)
-    return render(request, 'recipe.html', {'data': data})
+    recipe = Recipe.objects.get(id=recipe_id)
+    is_favorite = False
+    if recipe.favorite.filter(id=request.user.id).exists():
+        is_favorite = True
+    return render(request, 'recipe.html', {'data': data,
+                                           'is_favorite': is_favorite})
 
 
 def author(request, author_id):
+    favorite_recipes = request.user.favorite.all()
     data = Author.objects.filter(id=author_id)
     recipes_published = Recipe.objects.all()
-    return render(request, 'author.html', {'data': data, 'recipes_published': recipes_published})
+    return render(request, 'author.html', {'data': data, 'recipes_published': recipes_published,
+                                           'favorite_recipes':
+                                               favorite_recipes})
 
 
 @login_required
@@ -131,3 +139,17 @@ def edit_recipe(request, recipe_id):
         'author': recipe.author
     })
     return render(request, "generic_form.html", {"form": form})
+
+
+# Citation: Used to create favorite view
+# https://www.youtube.com/watch?v=1XiJvIuvqhs
+@login_required
+def favorite_recipe(request, recipe_id):
+    recipe = Recipe.objects.get(id=recipe_id)
+    if recipe.favorite.filter(id=request.user.id).exists():
+        recipe.favorite.remove(request.user)
+    else:
+        recipe.favorite.add(request.user)
+    return HttpResponseRedirect(
+        reverse('recipe-detail', args=(recipe_id,))
+    )
