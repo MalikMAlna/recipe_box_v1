@@ -22,8 +22,6 @@
 </ul>
 <br>
 <br>
-{% for author in data %}
-{% if request.user == author.user%}
 <h4>Favorite Recipes</h4>
 <ul>
     {% for recipe in favorite_recipes %}
@@ -32,5 +30,4 @@
         </li>
     {% endfor %}
 </ul>
-{% endif %}
-{% endfor %}
+
